@@ -12,6 +12,6 @@
   "type": "commonjs",
   "dependencies": {
     "@eivor1000/medium-common": "^1.0.1",
-    "zod": "^4.0.5"
+    "zod": "^3.25.76"
   }
 }

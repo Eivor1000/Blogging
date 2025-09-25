@@ -1,15 +1,47 @@
 import {Prisma, PrismaClient} from '@prisma/client/edge'
 import {withAccelerate} from '@prisma/extension-accelerate'
-import {Hono} from 'hono';
+import {OpenAPIHono} from '@hono/zod-openapi';
+import {swaggerUI} from '@hono/swagger-ui';
 import {cors} from 'hono/cors';
 import {decode, sign, verify} from 'hono/jwt'
 
 import blogRouter from './routes/blog';
 import {userRouter} from './routes/user';
 
-// Create the main Hono app
-const app = new Hono<{Bindings: {DATABASE_URL: string, JWT_SECRET: string}}>()
+// Create the main OpenAPI Hono app
+const app = new OpenAPIHono<{Bindings: {DATABASE_URL: string, JWT_SECRET: string}}>({
+  info: {
+    title: 'Medium Clone API',
+    version: 'v1.0.0',
+    description: 'A Medium-like blogging platform API with authentication and blog management'
+  },
+  servers: [
+    {
+      url: 'https://your-domain.workers.dev',
+      description: 'Production server'
+    },
+    {
+      url: 'http://localhost:8787',
+      description: 'Development server'
+    }
+  ]
+});
+
 app.use('/*', cors());
+
+// API Documentation
+app.doc('/doc', {
+  openapi: '3.0.0',
+  info: {
+    version: '1.0.0',
+    title: 'Medium Clone API',
+    description: 'API for a Medium-like blogging platform',
+  }
+});
+
+app.get('/swagger', swaggerUI({ url: '/doc' }));
+
+// API Routes
 app.route('/api/v1/user', userRouter);
 app.route('/api/v1/blog', blogRouter);
 

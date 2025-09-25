@@ -23,11 +23,11 @@ export const createBlogInput = z.object({
   content: z.string(),
 })
 
-export type CreateBlockInput = z.infer<typeof createBlogInput>;
+export type CreateBlogInput = z.infer<typeof createBlogInput>;
 
 export const updateBlogInput = z.object({
   title: z.string(),
   content: z.string(),
 })
 
-export type UpdateBlockInput = z.infer<typeof updateBlogInput>;
+export type UpdateBlogInput = z.infer<typeof updateBlogInput>;
