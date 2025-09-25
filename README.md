@@ -1,4 +1,4 @@
-# Medium Clone
+# Blogging Platform
 
 A full-stack blogging platform similar to Medium, built with modern web technologies.
 
